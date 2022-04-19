@@ -1,6 +1,7 @@
 const Koa = require('koa');
 const serve = require('koa-static');
 const koaBody = require('koa-body');
+//koa bodyparser
 
 const routes = require('./routes');
 
@@ -10,6 +11,7 @@ const port = 3000;
 
 
 app.use(serve('static/'));
+// переменная dirName
 
 /*
 app.use(async ctx => {
