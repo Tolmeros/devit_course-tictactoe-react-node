@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback, useMemo, useEffect} from 'react';
 import styles from './styles.module.css';
 import Table from "./Table";
 
@@ -35,53 +35,49 @@ const checkForWinner = (squares) => {
   return null;
 };
 
-const TicTacToe = ({turnToggle, turn, nextTurn, clearField, makeTurn, cells}) => {
-  const turnCount = useMemo(() => cells.reduce((count, cell) => {
-    return cell ? count + 1 : count;
-  }, 0), [cells]);
-
-  const winner = useMemo(() => checkForWinner(cells), [cells])
-
-  const isDraw = useMemo(() => {
-    return !winner && turnCount === 9;
-  }, [turnCount, winner]);
-
+const TicTacToe = ({game, newGame, gameState, makeTurn}) => {
   const handleClick = useCallback((num) => {
-    if (isDraw || winner) {
+    if (game.draw || game.winner) {
       alert('Game ended');
       return;
     }
 
-    if (cells[num] !== '') {
+    if (game.cells[num] !== '') {
       alert('Already clicked');
       return;
     }
 
-    makeTurn({index: num, player: turn});
-    turnToggle();
-
-  }, [cells, isDraw, makeTurn, turn, turnToggle, winner]);
+    makeTurn({cell: num, player: game.currentTurn});
+  }, [game, makeTurn]);
 
   const handleRestart = useCallback(
     () => {
-      nextTurn('x');
-      clearField();
+      newGame();
     },
-    [nextTurn, clearField]
+    [newGame]
   );
 
+  useEffect(() => {
+    gameState();
+  }, []);
+
+  console.log(game);
   return (
     <div className={styles.container}>
-      <Table handleClick={handleClick} cells={cells}/>
-      <p>Turn: {turn}</p>
-      <p>Turn count: {turnCount}</p>
-      {winner && (
+      <Table handleClick={handleClick} cells={game.cells}/>
+      <p>Turn: {game.currentTurn}</p>
+      {!game.currentTurn && (
         <>
-          <p>{winner} is the winner!</p>
           <button onClick={handleRestart}>Play Again</button>
         </>
       )}
-      {isDraw && (
+      {game.winner && (
+        <>
+          <p>{game.winner} is the winner!</p>
+          <button onClick={handleRestart}>Play Again</button>
+        </>
+      )}
+      {game.draw && (
         <>
           <p>Draw </p>
           <button onClick={handleRestart}>Play Again</button>

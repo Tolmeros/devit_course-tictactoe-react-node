@@ -4,7 +4,7 @@ import axiosMiddleware from 'redux-axios-middleware';
 
 import reducer from './reducers';
 
-const client = axios.create({ //all axios can be used, shown in axios documentation
+const client = axios.create({
   baseURL:'/api',
   responseType: 'json'
 });

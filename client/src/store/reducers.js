@@ -1,72 +1,47 @@
 import {combineReducers} from 'redux';
 import {handleActions} from 'redux-actions';
-import {clearField, makeTurn, nextTurn, turnToggle} from './actions';
+import {newGame, gameState, makeTurn} from './actions';
 
-const defaultTurnState = {
-  turn: 'x',
-  loading: false,
-}
-
-const handleTurnToggle = (state) => (state.turn === 'x') 
-  ? {...state, turn: 'o'}
-  : {...state, turn: 'x'};
-
-const handleTurn = (state, {payload}) => {
- console.log('handleTurn', payload);
- return {
-  ...state,
-  loading: true,
- }
-};
-
-const handleTurnSucces = (state, {payload}) => {
- console.log('handleTurnSucces', payload);
-
- return {
-  ...state,
-  loading: false,
-  turn: payload.data.turn
- }
-};
-
-const turnReducer = handleActions(
-  {
-    [nextTurn]: commonLoader,
-    [nextTurn.success]: handleTurnSucces,
-    [nextTurn.fail]: handleTurnFail,
-    [turnToggle]: handleTurnToggle,
-  },
-  defaultTurnState
-);
-
-const defaultCellsState = {
+const defaultGameState = {
   cells: Array(9).fill(''),
+  currentTurn: '',
+  winner: null,
+  draw: false,
+  loading: false,
 }
 
-const handleAddTurnToCells = (state, {payload}) => {
-  const cells = [...state.cells];
-  const {index, player} = payload;
-  cells[index] = player;
+const commonGameRequest = (state, {payload}) => {
+  console.log('commonGameLoader', payload);
   return {
     ...state,
-    cells,
+    loading: true,
   }
 };
 
-const handleClearCells = (state) => (defaultCellsState);
+const handleGameStateSuccess = (state, {payload}) => {
+  console.log('handleNewGameSuccess', payload);
+  return {
+    ...state,
+    cells: payload.data.cells,
+    currentTurn: payload.data.currentTurn,
+    winner: payload.data.winner,
+    draw: payload.data.draw,
+    loading: false,
+  }
+};
 
-
-const cellsReducer = handleActions(
+const gameReducer = handleActions(
   {
-    [makeTurn]: handleAddTurnToCells,
-    [clearField]: handleClearCells,
+    [newGame]: commonGameRequest,
+    [newGame.success]: handleGameStateSuccess,
+    [gameState]: commonGameRequest,
+    [gameState.success]: handleGameStateSuccess,
+    [makeTurn]: commonGameRequest,
+    [makeTurn.success]: handleGameStateSuccess,
   },
-  defaultCellsState
+  defaultGameState
 );
 
-
-
 export default combineReducers({
-  turn: turnReducer,
-  cells: cellsReducer,
+  game: gameReducer,
 });

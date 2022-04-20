@@ -1,19 +1,23 @@
 import {connect} from 'react-redux';
-import {clearField, makeTurn, nextTurn, turnToggle} from '../../store/actions';
-import TicTacToe from './TicTacToe';
-import {cells, turn} from '../../store/selectors';
 import {createStructuredSelector} from 'reselect';
 
+import {newGame, gameState, makeTurn} from '../../store/actions';
+import TicTacToe from './TicTacToe';
+//import {cells, turn, game} from '../../store/selectors';
+import {game} from '../../store/selectors';
+
 const mapStateToProps = createStructuredSelector({
+  /*
   cells,
   turn,
+  */
+  game,
 });
 
 const mapDispatchToProps = {
-  clearField,
+  newGame,
+  gameState,
   makeTurn,
-  turnToggle,
-  nextTurn,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TicTacToe);

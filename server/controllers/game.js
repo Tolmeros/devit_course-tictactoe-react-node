@@ -1,4 +1,3 @@
-//const cells = require('../models/cells.js');
 const game = require('../models/game.js');
 
 const combos = {
@@ -34,29 +33,29 @@ const checkForWinner = (squares) => {
   return null;
 };
 
-const turnCount = () => cells.reduce((count, cell) => {
+const turnCount = (cells) => cells.reduce((count, cell) => {
   return cell ? count + 1 : count;
 }, 0);
 
 function get(ctx) {
-  console.log(ctx.request.body);
+  console.log('get', ctx.request.body);
   const winner = checkForWinner(game.cells);
-  const draw = (!winner && turnCount === 9);
+  const draw = (!winner && turnCount(game.cells) === 9);
 
   const result = {
     ...game,
     winner,
     draw,
   }
-
+  console.log(result);
   ctx.body = result;
 }
 
 function newGame(ctx) {
-  console.log(ctx.request.body);
+  console.log('newGame', ctx.request.body);
   game.cells.fill('');
   game.currentTurn = 'x';
-  get(ctx, next);
+  get(ctx);
 }
 
 function nextPlayer() {
@@ -68,7 +67,7 @@ function nextPlayer() {
 }
 
 function turn(ctx) {
-  console.log(ctx.request.body);
+  console.log('turn', ctx.request.body);
   console.log(typeof ctx.request.body);
   //ctx.body = 'ok';
   const turn = ctx.request.body;
