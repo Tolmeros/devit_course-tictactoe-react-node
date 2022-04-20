@@ -39,6 +39,7 @@ const turnCount = () => cells.reduce((count, cell) => {
 }, 0);
 
 function get(ctx) {
+  console.log(ctx.request.body);
   const winner = checkForWinner(game.cells);
   const draw = (!winner && turnCount === 9);
 
@@ -52,6 +53,7 @@ function get(ctx) {
 }
 
 function newGame(ctx) {
+  console.log(ctx.request.body);
   game.cells.fill('');
   game.currentTurn = 'x';
   get(ctx, next);
