@@ -74,6 +74,7 @@ function turn(ctx) {
   const turn = ctx.request.body;
   if (('player' in turn) && ('cell' in turn)) {
     if (turn.player === game.currentTurn) {
+      // turn.player => player token
       game.cells[turn.cell] = turn.player;
       nextPlayer();
   

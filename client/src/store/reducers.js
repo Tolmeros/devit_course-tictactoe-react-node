@@ -31,7 +31,7 @@ const handleTurnSucces = (state, {payload}) => {
 
 const turnReducer = handleActions(
   {
-    [nextTurn]: coommonLoader,
+    [nextTurn]: commonLoader,
     [nextTurn.success]: handleTurnSucces,
     [nextTurn.fail]: handleTurnFail,
     [turnToggle]: handleTurnToggle,
