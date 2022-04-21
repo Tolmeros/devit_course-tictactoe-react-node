@@ -1,3 +1,5 @@
+const structuredClone = require('realistic-structured-clone');
+
 const game = require('../models/game.js');
 
 const combos = {
@@ -39,44 +41,55 @@ const turnCount = (cells) => cells.reduce((count, cell) => {
 
 function get(ctx) {
   console.log('get', ctx.request.body);
-  const winner = checkForWinner(game.cells);
-  const draw = (!winner && turnCount(game.cells) === 9);
+  let sessionGame = checkCreateSession(ctx.state.user);
+
+  const winner = checkForWinner(sessionGame.cells);
+  const draw = (!winner && turnCount(sessionGame.cells) === 9);
 
   const result = {
-    ...game,
+    ...sessionGame,
     winner,
     draw,
   }
+
   console.log(result);
   ctx.body = result;
+  //ctx.response.status = 200; //?
 }
 
 function newGame(ctx) {
   console.log('newGame', ctx.request.body);
-  game.cells.fill('');
-  game.currentTurn = 'x';
+  let sessionGame = checkCreateSession(ctx.state.user);
+
+  sessionGame.cells.fill('');
+  sessionGame.currentTurn = 'x';
+
   get(ctx);
 }
 
-function nextPlayer() {
-  if (game.currentTurn === 'x') {
-    game.currentTurn = 'o';
-  } else {
-    game.currentTurn = 'x';
+function nextTurn(currentTurn) {
+  return (currentTurn === 'x')
+    ? game.currentTurn = 'o'
+    : game.currentTurn = 'x';
+}
+
+function checkCreateSession(user) {
+  if (!game.uuids.hasOwnProperty(user.uuid)) {
+    game.uuids[user.uuid] = structuredClone(game.default);
+    console.log('checkCreateSession', game.uuids);
   }
+  return game.uuids[user.uuid];
 }
 
 function turn(ctx) {
-  console.log('turn', ctx.request.body);
-  console.log(typeof ctx.request.body);
   //ctx.body = 'ok';
   const turn = ctx.request.body;
   if (('player' in turn) && ('cell' in turn)) {
-    if (turn.player === game.currentTurn) {
-      // turn.player => player token
-      game.cells[turn.cell] = turn.player;
-      nextPlayer();
-  
+    let sessionGame = checkCreateSession(ctx.state.user);
+    if (turn.player === sessionGame.currentTurn) {
+      sessionGame.cells[turn.cell] = sessionGame.currentTurn;
+      sessionGame.currentTurn = nextTurn(sessionGame.currentTurn);
+
       get(ctx);
     } else {
       ctx.response.status = 422;

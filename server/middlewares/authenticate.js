@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
 
 module.exports = (ctx) => {
-  console.log('authenticate', ctx);
+  //console.log('authenticate', ctx);
   ctx.status = 200;
   ctx.body = {
     token: jwt.sign(

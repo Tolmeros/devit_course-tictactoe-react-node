@@ -16,6 +16,7 @@
     "koa-bodyparser": "^4.3.0",
     "koa-jwt": "^4.0.3",
     "koa-static": "^5.0.0",
+    "realistic-structured-clone": "^3.0.0",
     "uuid": "^8.3.2"
   }
 }
