@@ -1,20 +1,8 @@
 import {createAction} from 'redux-actions';
 
+import {createRequestAction} from './helpers'
 
-// move to helper
-const createRequestAction = (type, payloadCreator) => {
-  const action = createAction(
-    type,
-    (...payload) => ({
-      request: payloadCreator(...payload),
-    })
-  );
-  action.success = type + '_SUCCESS';
-  action.fail = type + '_FAIL';
-  return action;
-
-};
-
+// game
 export const newGame = createRequestAction(
   'NEW_GAME',
   () => ({
@@ -43,4 +31,9 @@ export const makeTurn = createRequestAction(
   })
 );
 
+// session
 
+export const changeUserNameLocaly = createAction(
+  'CHANGE_USER_NAME_LOCALY',
+  (payload) => payload
+);

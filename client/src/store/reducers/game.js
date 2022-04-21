@@ -1,6 +1,5 @@
-import {combineReducers} from 'redux';
 import {handleActions} from 'redux-actions';
-import {newGame, gameState, makeTurn} from './actions';
+import {newGame, gameState, makeTurn} from '../actions';
 
 const defaultGameState = {
   cells: Array(9).fill(''),
@@ -42,6 +41,4 @@ const gameReducer = handleActions(
   defaultGameState
 );
 
-export default combineReducers({
-  game: gameReducer,
-});
+export default gameReducer;
