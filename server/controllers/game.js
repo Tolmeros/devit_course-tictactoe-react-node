@@ -79,9 +79,11 @@ function turn(ctx) {
   
       get(ctx);
     } else {
+      ctx.response.status = 422;
       ctx.body = ctx.request.body;
     }
   } else {
+    ctx.response.status = 422;
     ctx.body = ctx.request.body;
   }
 }
