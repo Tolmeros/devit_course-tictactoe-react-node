@@ -2,6 +2,8 @@ import React from "react";
 import imgX from "../img_X.png"
 import imgO from "../img_O.png"
 
+
+// move to separate component
 const playerMark = (player) => {
   if (player === 'x') {
     return <img src={imgX} alt="X" />;
