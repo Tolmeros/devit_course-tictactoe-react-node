@@ -1,7 +1,7 @@
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 
-import {changeUserNameLocaly} from '../../store/actions';
+import {changeUserNameLocaly, makeLogin} from '../../store/actions';
 import Login from './Login';
 //import {cells, turn, game} from '../../store/selectors';
 import {session} from '../../store/selectors';
@@ -12,6 +12,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = {
   changeUserNameLocaly,
+  makeLogin,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

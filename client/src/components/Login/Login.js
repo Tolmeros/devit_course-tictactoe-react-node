@@ -1,10 +1,11 @@
 import React, {useCallback} from 'react';
 
-function Login({session, changeUserNameLocaly}) {
+function Login({session, changeUserNameLocaly, makeLogin}) {
   const handleSubmit = useCallback((event) => {
     console.log('handleSubmit', event);
-    return false;
-  }, []);
+    makeLogin({userName: session.userName});
+    //return false;
+  }, [makeLogin, session]);
   
   const handleChange = useCallback((event) => {
     //console.log('handleChange', event);

@@ -29,14 +29,25 @@ const handleGameStateSuccess = (state, {payload}) => {
   }
 };
 
+const handleFail = (state, action) => {
+  console.log('handleFail', action);
+  return {
+    ...state,
+    loading: false,
+  }
+};
+
 const gameReducer = handleActions(
   {
     [newGame]: commonGameRequest,
     [newGame.success]: handleGameStateSuccess,
+    [newGame.fail]: handleFail,
     [gameState]: commonGameRequest,
     [gameState.success]: handleGameStateSuccess,
+    [gameState.fail]: handleFail,
     [makeTurn]: commonGameRequest,
     [makeTurn.success]: handleGameStateSuccess,
+    [makeTurn.fail]: handleFail,
   },
   defaultGameState
 );

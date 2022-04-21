@@ -37,3 +37,14 @@ export const changeUserNameLocaly = createAction(
   'CHANGE_USER_NAME_LOCALY',
   (payload) => payload
 );
+
+export const makeLogin = createRequestAction(
+  'LOGIN',
+  ({userName}) => ({
+    url: '/login',
+    method: 'post',
+    data: {
+      userName,
+    }
+  })
+);
