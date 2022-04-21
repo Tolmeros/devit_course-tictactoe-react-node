@@ -1,7 +1,7 @@
 const Koa = require('koa');
 const serve = require('koa-static');
 const koaBody = require('koa-body');
-//koa bodyparser
+const bodyParser = require('koa-bodyparser');
 
 const routes = require('./routes');
 
@@ -9,8 +9,10 @@ const app = new Koa();
 
 const port = process.env.PORT || 5000;
 
+//app.use(koaBody());
+app.use(bodyParser());
+
 app
-  .use(koaBody())
   .use(routes.routes())
   .use(routes.allowedMethods());
 
