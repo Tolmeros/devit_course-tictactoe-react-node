@@ -35,6 +35,7 @@ const handleFail = (state, action) => {
 
 const handlemakeLoginSuccess = (state, {payload}) => {
   console.log('handlemakeLoginSuccess', payload);
+  localStorage.setItem("session_token", payload.data.token);
   return {
     ...state,
     token: payload.data.token,
