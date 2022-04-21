@@ -7,22 +7,18 @@ const routes = require('./routes');
 
 const app = new Koa();
 
-const port = 3000;
-
-
-app.use(serve('static/'));
-// переменная dirName
-
-/*
-app.use(async ctx => {
-  ctx.body = 'Hello World';
-});
-*/
+const port = process.env.PORT || 5000;
 
 app
   .use(koaBody())
   .use(routes.routes())
   .use(routes.allowedMethods());
+
+app.use(serve('static/'));
+// переменная dirName
+
+app.use(serve('static_react/'));
+
 
 app.listen(port, () =>
   console.log(`The server is running at http://localhost:${port}/`)

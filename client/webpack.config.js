@@ -8,7 +8,7 @@ module.exports = {
   output: {
     //path: path.join(__dirname, "build"),
     //copy-webpack-plugin
-    path: path.join(__dirname, "../server/static/"),
+    path: path.join(__dirname, "../server/static_react/"),
     filename: "[name].js"
   },
   module: {
