@@ -5,6 +5,8 @@ const defaultSessionState = {
   userName: localStorage.getItem("session_user_name") || '',
   token: localStorage.getItem("session_token") || '',
   loading: false,
+  loginFail: false,
+  loginSuccess: false,
 }
 
 const hangleChangeUserNameLocaly = (state, {payload}) => {
@@ -22,6 +24,7 @@ const commonSessionRequest = (state, {payload}) => {
   return {
     ...state,
     loading: true,
+    loginSuccess: false,
   }
 };
 
@@ -30,6 +33,8 @@ const handleFail = (state, action) => {
   return {
     ...state,
     loading: false,
+    loginFail: true,
+    loginSuccess: false,
   }
 };
 
@@ -39,7 +44,9 @@ const handlemakeLoginSuccess = (state, {payload}) => {
   return {
     ...state,
     token: payload.data.token,
-    loading: true,
+    loading: false,
+    loginFail: false,
+    loginSuccess: true,
   }
 };
 

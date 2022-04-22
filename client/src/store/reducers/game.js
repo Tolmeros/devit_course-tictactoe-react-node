@@ -7,6 +7,7 @@ const defaultGameState = {
   winner: null,
   draw: false,
   loading: false,
+  loadingError: false,
 }
 
 const commonGameRequest = (state, {payload}) => {
@@ -14,6 +15,7 @@ const commonGameRequest = (state, {payload}) => {
   return {
     ...state,
     loading: true,
+    loadingError: false,
   }
 };
 
@@ -26,6 +28,7 @@ const handleGameStateSuccess = (state, {payload}) => {
     winner: payload.data.winner,
     draw: payload.data.draw,
     loading: false,
+    loadingError: false,
   }
 };
 
@@ -34,6 +37,7 @@ const handleFail = (state, action) => {
   return {
     ...state,
     loading: false,
+    loadingError: true,
   }
 };
 

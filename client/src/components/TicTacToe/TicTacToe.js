@@ -1,4 +1,6 @@
 import React, {useCallback, useMemo, useEffect} from 'react';
+import {Navigate} from 'react-router-dom';
+
 import styles from './styles.module.css';
 import Table from "./Table";
 
@@ -35,7 +37,7 @@ const checkForWinner = (squares) => {
   return null;
 };
 
-const TicTacToe = ({game, newGame, gameState, makeTurn}) => {
+const TicTacToe = ({game, gameLoadingError, newGame, gameState, makeTurn}) => {
   const handleClick = useCallback((num) => {
     if (game.draw || game.winner) {
       alert('Game ended');
@@ -61,30 +63,31 @@ const TicTacToe = ({game, newGame, gameState, makeTurn}) => {
     gameState();
   }, []);
 
-  console.log(game);
-  return (
-    <div className={styles.container}>
-      <Table handleClick={handleClick} cells={game.cells}/>
-      <p>Turn: {game.currentTurn}</p>
-      {!game.currentTurn && (
-        <>
-          <button onClick={handleRestart}>Play Again</button>
-        </>
-      )}
-      {game.winner && (
-        <>
-          <p>{game.winner} is the winner!</p>
-          <button onClick={handleRestart}>Play Again</button>
-        </>
-      )}
-      {game.draw && (
-        <>
-          <p>Draw </p>
-          <button onClick={handleRestart}>Play Again</button>
-        </>
-      )}
-    </div>
-  );
+  return gameLoadingError
+    ?  <Navigate to="/login" />
+    : (
+      <div className={styles.container}>
+        <Table handleClick={handleClick} cells={game.cells}/>
+        <p>Turn: {game.currentTurn}</p>
+        {!game.currentTurn && (
+          <>
+            <button onClick={handleRestart}>Play Again</button>
+          </>
+        )}
+        {game.winner && (
+          <>
+            <p>{game.winner} is the winner!</p>
+            <button onClick={handleRestart}>Play Again</button>
+          </>
+        )}
+        {game.draw && (
+          <>
+            <p>Draw </p>
+            <button onClick={handleRestart}>Play Again</button>
+          </>
+        )}
+      </div>
+    );
 };
 
 export default TicTacToe;

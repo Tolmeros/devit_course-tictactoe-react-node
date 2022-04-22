@@ -3,15 +3,11 @@ import {createStructuredSelector} from 'reselect';
 
 import {newGame, gameState, makeTurn} from '../../store/actions';
 import TicTacToe from './TicTacToe';
-//import {cells, turn, game} from '../../store/selectors';
-import {game} from '../../store/selectors';
+import {game, gameLoadingError} from '../../store/selectors';
 
 const mapStateToProps = createStructuredSelector({
-  /*
-  cells,
-  turn,
-  */
   game,
+  gameLoadingError,
 });
 
 const mapDispatchToProps = {
