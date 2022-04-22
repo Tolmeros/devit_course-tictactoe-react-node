@@ -2,6 +2,7 @@ const Koa = require('koa');
 const serve = require('koa-static');
 const bodyParser = require('koa-bodyparser');
 const mount = require("koa-mount");
+require('dotenv').config()
 
 const routes = require('./routes');
 
