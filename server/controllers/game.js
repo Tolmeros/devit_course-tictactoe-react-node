@@ -75,6 +75,7 @@ function nextTurn(currentTurn) {
 
 function checkCreateSession(user) {
   if (!game.uuids.hasOwnProperty(user.uuid)) {
+    //let sessionGame = _.cloneDeep(game.default);
     game.uuids[user.uuid] = structuredClone(game.default);
     console.log('checkCreateSession', game.uuids);
   }

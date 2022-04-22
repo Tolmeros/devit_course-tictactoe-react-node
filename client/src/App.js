@@ -1,7 +1,7 @@
 import React from 'react';
 import {
-  //BrowserRouter as Router,
-  HashRouter as Router,
+  BrowserRouter as Router,
+  //HashRouter as Router,
   Routes,
   Route,
   //Link
@@ -41,6 +41,9 @@ function App() {
 }
 
 function Home() {
+  // состояние игры получить
+  // проверить
+
   return (
     <div className="Home">
       <ul>

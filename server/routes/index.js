@@ -1,22 +1,9 @@
-const Router = require('@koa/router');
+const combineRouters = require('koa-combine-routers');
 
-const GameControllers = require('../controllers/game.js');
-const authenticate = require('../middlewares/authenticate');
-const jwt = require('../middlewares/jwt');
+const apiRouter = require('./api');
 
-const router = new Router();
-
-router.prefix('/api');
-
-router.get('/test', (ctx, next) => {
-  console.log('api get');
-  ctx.body = 'test';
-});
-
-router.post('/login', authenticate);
-
-router.get('/game', jwt, GameControllers.get);
-router.delete('/game', jwt, GameControllers.newGame);
-router.put('/game', jwt, GameControllers.turn);
+const router = combineRouters(
+  apiRouter,
+);
 
 module.exports = router;
