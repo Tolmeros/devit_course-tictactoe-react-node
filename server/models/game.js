@@ -1,17 +1,17 @@
-/*
-let gameDefault = {
-  currentTurn: 'x',
-  cells: Array(9).fill(''),
-}
+//const mongoose = require('mongoose');
 
-let game = {
-  currentTurn: 'x',
-  cells: Array(9).fill(''),
-}
+const {Schema} = require('mongoose');
 
-module.exports = game;
-module.exports = gameDefault;
-*/
+const gameSchema = Schema({
+  game_uuid: String,
+  playerO_uuid: String,
+  playerX_uuid: String,
+  currentTurn: String,
+  cells: [String],
+  active: Boolean,
+  winner: String,
+  draw: Boolean,
+});
 
 let game = {
   default: {

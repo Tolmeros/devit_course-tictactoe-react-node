@@ -20,6 +20,7 @@
     "koa-jwt": "^4.0.3",
     "koa-mount": "^4.0.0",
     "koa-static": "^5.0.0",
+    "mongoose": "^6.3.1",
     "realistic-structured-clone": "^3.0.0",
     "uuid": "^8.3.2"
   }
