@@ -1,11 +1,26 @@
+
+require('dotenv').config();
+
 const Koa = require('koa');
 const compress = require('koa-compress')
 const serve = require('koa-static');
 const bodyParser = require('koa-bodyparser');
 const mount = require("koa-mount");
-require('dotenv').config()
+const mongoose = require('mongoose');
 
 const routes = require('./routes');
+
+const {getProcessEnv} = require('./helpers.js');
+
+const dbUrl = getProcessEnv('MONGO_DB_URL');
+
+mongoose.connect(dbUrl);
+
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "DB connection error: "));
+db.once("open", function () {
+  console.log("DB connected successfully");
+});
 
 const app = new Koa();
 

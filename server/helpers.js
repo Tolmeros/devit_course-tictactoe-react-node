@@ -1,8 +1,8 @@
 
-function getProcessEnv(name) {
-    let val = process.env[name];
+function getProcessEnv(envName) {
+    let val = process.env[envName];
     if ((val === undefined) || (val === null)) {
-        throw ("missing env var for " + name);
+        throw ("missing env var for " + envName);
     }
     return val;
 }
