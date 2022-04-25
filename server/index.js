@@ -1,4 +1,5 @@
 const Koa = require('koa');
+const compress = require('koa-compress')
 const serve = require('koa-static');
 const bodyParser = require('koa-bodyparser');
 const mount = require("koa-mount");
@@ -9,6 +10,8 @@ const routes = require('./routes');
 const app = new Koa();
 
 const port = process.env.PORT || 5000;
+
+app.use(compress());
 
 app.use(bodyParser());
 
