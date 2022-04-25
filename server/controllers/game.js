@@ -1,6 +1,4 @@
-const structuredClone = require('realistic-structured-clone');
-
-const {Game, game} = require('../models/game.js');
+const Game = require('../models/game.js');
 
 const combos = {
   horizontal: [
@@ -41,13 +39,7 @@ const turnCount = (cells) => cells.reduce((count, cell) => {
 
 async function get(ctx) {
   console.log('get', ctx.request.body);
-  //let sessionGame = checkCreateSession(ctx.state.user);
   const dbGame = await checkCreateSession(ctx.state.user);
-
-  /*
-  const winner = checkForWinner(sessionGame.cells);
-  const draw = (!winner && turnCount(sessionGame.cells) === 9);
-  */
 
   const winner = checkForWinner(dbGame.cells);
   const draw = (!winner && turnCount(dbGame.cells) === 9);
@@ -71,13 +63,6 @@ async function get(ctx) {
 async function newGame(ctx) {
   console.log('newGame', ctx.request.body);
 
-  /*
-  let sessionGame = await checkCreateSession(ctx.state.user);
-
-  sessionGame.cells.fill('');
-  sessionGame.currentTurn = 'x';
-  */
-
   const dbGame = await checkCreateSession(ctx.state.user);
   dbGame.cells.fill('');
   dbGame.currentTurn = 'x';
@@ -86,10 +71,10 @@ async function newGame(ctx) {
   await get(ctx);
 }
 
-function nextTurn(currentTurn) {
-  return (currentTurn === 'x')
-    ? game.currentTurn = 'o'
-    : game.currentTurn = 'x';
+function nextTurn(game) {
+  return (game.currentTurn === 'x')
+    ? 'o'
+    : 'x';
 }
 
 /*
@@ -113,31 +98,16 @@ async function checkCreateSession(user) {
   }
 
   return gameDb;
-
-  /*
-  if (!game.uuids.hasOwnProperty(user.uuid)) {
-    //let sessionGame = _.cloneDeep(game.default);
-    game.uuids[user.uuid] = structuredClone(game.default);
-    console.log('checkCreateSession', game.uuids);
-  }
-  return game.uuids[user.uuid];
-  */
 }
 
 async function turn(ctx) {
   //ctx.body = 'ok';
   const turn = ctx.request.body;
   if (('player' in turn) && ('cell' in turn)) {
-    /*
-    let sessionGame = await checkCreateSession(ctx.state.user);
-    if (turn.player === sessionGame.currentTurn) {
-      sessionGame.cells[turn.cell] = sessionGame.currentTurn;
-      sessionGame.currentTurn = nextTurn(sessionGame.currentTurn);
-    */
     const dbGame = await checkCreateSession(ctx.state.user);
     if (turn.player === dbGame.currentTurn) {
       dbGame.cells[turn.cell] = dbGame.currentTurn;
-      dbGame.currentTurn = nextTurn(dbGame.currentTurn);
+      dbGame.currentTurn = nextTurn(dbGame);
       await dbGame.save();
       await get(ctx);
     } else {

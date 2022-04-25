@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-//const {Schema} = require('mongoose');
 
 /*
 const turnSchema = new Schema({
@@ -23,15 +22,6 @@ const gameSchema = new mongoose.Schema({
     },
     default:'x',
   },
-  /*
-  cells: [{
-    type:String,
-    validate: {
-      validator: (v) => ((v === 'o') || (v === 'x')),
-      message: (props) => `${props.value} is not 'o' or 'x'`,
-    }
-  }],
-  */
   cells: {
     type: Array,
     of: {
@@ -65,20 +55,4 @@ const gameSchema = new mongoose.Schema({
   },
 });
 
-const Game = mongoose.model('Game', gameSchema);
-
-exports.Game = Game;
-
-let game = {
-  default: {
-    currentTurn: 'x',
-    cells: Array(9).fill(''),
-  },
-  uuids: {
-
-  },
-  currentTurn: 'x',
-  cells: Array(9).fill(''),
-}
-
-exports.game = game;
+module.exports = mongoose.model('Game', gameSchema);
