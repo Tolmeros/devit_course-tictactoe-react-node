@@ -12,9 +12,9 @@ const routes = require('./routes');
 
 const {getProcessEnv} = require('./helpers.js');
 
-const dbUrl = getProcessEnv('MONGO_DB_URL');
+const dbUri = getProcessEnv('MONGO_DB_URI');
 
-mongoose.connect(dbUrl);
+mongoose.connect(dbUri);
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "DB connection error: "));
