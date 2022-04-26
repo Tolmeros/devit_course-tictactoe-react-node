@@ -63,10 +63,14 @@ async function get(ctx) {
 async function newGame(ctx) {
   console.log('newGame', ctx.request.body);
 
-  const dbGame = await checkCreateSession(ctx.state.user);
-  dbGame.cells.fill('');
-  dbGame.currentTurn = 'x';
-  await dbGame.save();
+  let dbGame = await checkCreateSession(ctx.state.user);
+  if (dbGame.winner || dbGame.draw) {
+    dbGame.active = false;
+    await dbGame.save();
+
+    dbGame =  await createSession(ctx.state.user);
+    await dbGame.save();
+  }
 
   await get(ctx);
 }
@@ -88,12 +92,16 @@ function checkCreateSession(user) {
 }
 */
 
+async function createSession(user) {
+  return await await Game.create({playerO_uuid: user.uuid, playerX_uuid: user.uuid});
+}
+
 async function checkCreateSession(user) {
-  let gameDb = await Game.findOne({playerO_uuid: user.uuid}).exec();
+  let gameDb = await Game.findOne({playerO_uuid: user.uuid, active: true}).exec();
   console.log('gameDb', gameDb);
 
   if (!gameDb) {
-    gameDb = await Game.create({playerO_uuid: user.uuid, playerX_uuid: user.uuid});
+    gameDb = await createSession(user);
     console.log('gameDb', gameDb);
   }
 
