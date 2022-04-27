@@ -81,17 +81,6 @@ function nextTurn(game) {
     : 'x';
 }
 
-/*
-function checkCreateSession(user) {
-  if (!game.uuids.hasOwnProperty(user.uuid)) {
-    //let sessionGame = _.cloneDeep(game.default);
-    game.uuids[user.uuid] = structuredClone(game.default);
-    console.log('checkCreateSession', game.uuids);
-  }
-  return game.uuids[user.uuid];
-}
-*/
-
 async function createSession(user) {
   return await await Game.create({playerO_uuid: user.uuid, playerX_uuid: user.uuid});
 }
