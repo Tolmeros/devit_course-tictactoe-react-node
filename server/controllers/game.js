@@ -58,6 +58,8 @@ async function get(ctx) {
   console.log(result);
   ctx.body = result;
   //ctx.response.status = 200; //?
+
+  gamesHistory(ctx);
 }
 
 async function newGame(ctx) {
@@ -117,8 +119,18 @@ async function turn(ctx) {
   }
 }
 
+async function gamesHistory(ctx) {
+  console.log('gamesHistory', ctx.request.body);
+  const dbGames = await Game.find({playerO_uuid: ctx.state.user.uuid, active: false}).exec();
+
+  console.log(dbGames);
+  //ctx.body = result;
+  //ctx.response.status = 200; //?
+}
+
 module.exports = {
   get,
   newGame,
-  turn
+  turn,
+  gamesHistory
 }

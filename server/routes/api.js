@@ -14,4 +14,6 @@ router.get('/game', jwt, GameControllers.get);
 router.delete('/game', jwt, GameControllers.newGame);
 router.put('/game', jwt, GameControllers.turn);
 
+router.get('/games', jwt, GameControllers.gamesHistory);
+
 module.exports = router;
